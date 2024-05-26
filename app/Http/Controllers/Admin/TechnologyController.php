@@ -14,7 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $technologies = Technology::all();
 
+        return view('admin.technologies.index', compact('technologies'));
     }
 
     /**
@@ -30,17 +32,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       /* $exists = Project::where('title', $request->title)->first();
+        $exists = Technology::where('name', $request->name)->first();
         if ($exists) {
-            return redirect()->route('admin.projects.index')->with('error', 'Progetto già esistente');
+            return redirect()->route('admin.technologies.index')->with('error', 'Tecnologia già esistente');
         } else {
-            $new_project = new Project();
-            $new_project->title = $request->title;
-            $new_project->slug = Helper::generateSlug($new_project->name, Project::class);
-            $new_project->save();
+            $new_technology = new Technology();
+            $new_technology->name = $request->name;
+            $new_technology->save();
 
-            return redirect()->route('admin.projects.index')->with('success', 'Progetto aggiunto');
-        }*/
+            return redirect()->route('admin.technologies.index')->with('success', 'Tecnologia aggiunta');
+        }
     }
 
     /**

@@ -30,17 +30,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       /* $exists = Project::where('title', $request->title)->first();
+        $exists = Type::where('name', $request->name)->first();
         if ($exists) {
-            return redirect()->route('admin.projects.index')->with('error', 'Progetto già esistente');
+            return redirect()->route('admin.types.index')->with('error', 'Tipo già esistente');
         } else {
-            $new_project = new Project();
-            $new_project->title = $request->title;
-            $new_project->slug = Helper::generateSlug($new_project->name, Project::class);
-            $new_project->save();
+            $new_type = new Type();
+            $new_type->name = $request->name;
+            $new_type->save();
 
-            return redirect()->route('admin.projects.index')->with('success', 'Progetto aggiunto');
-        }*/
+            return redirect()->route('admin.types.index')->with('success', 'Tipo aggiunto');
+        }
     }
 
     /**
