@@ -4,6 +4,8 @@
 
 <h1> Progetti </h1>
 
+<a href="{{ route('admin.projects.create') }}" class="btn btn-primary mb-3">Create New Project</a>
+
 <table class="table">
     <thead>
         <tr>

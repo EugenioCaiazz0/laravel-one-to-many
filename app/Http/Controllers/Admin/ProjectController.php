@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Technology;
+use App\Models\Type;
 use App\Functions\Helper;
 
 class ProjectController extends Controller
@@ -14,6 +16,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $projects = Project::orderBy('date_of_creation')->paginate(20);
+
         $projects = Project::all();
         return view('admin.projects.index', compact('projects'));
     }
@@ -23,7 +27,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
+        return view('admin.projects.create');
     }
 
     /**
@@ -31,17 +35,26 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:100',
+            'description' => 'nullable',
+            'date_of_creation' => 'required|date',
+            'author' => 'required',
+        ]);
+
         $exists = Project::where('title', $request->title)->first();
         if ($exists) {
-            return redirect()->route('admin.projects.index')->with('error', 'Progetto già esistente');
+            return redirect()->route('admin.projects.index')->with('error', 'Project already exists');
         } else {
             $new_project = new Project();
             $new_project->title = $request->title;
             $new_project->slug = Helper::generateSlug($new_project->name, Project::class);
             $new_project->save();
 
-            return redirect()->route('admin.projects.index')->with('success', 'Progetto aggiunto');
+            Project::create($request->all());
+            return redirect()->route('admin.projects.index')->with('success', 'Project created successfully');
         }
+
     }
 
     /**

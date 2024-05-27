@@ -18,7 +18,6 @@ class ProjectTableSeeder extends Seeder
     {
         for($i=0; $i<15; $i++){
             $new_project = new Project();
-            $new_project->type_id = Type::inRandomOrder()->first()->id;
             $new_project->title = $faker->words(4, true);
             $new_project->slug = Help::generateSlug($new_project->title, Project::class);
             $new_project->description = $faker->paragraphs(2, true);
